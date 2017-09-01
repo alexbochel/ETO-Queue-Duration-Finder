@@ -8,6 +8,13 @@ using _Excel = Microsoft.Office.Interop.Excel;
 
 namespace ETOCBurgDuration
 {
+    /// <summary>
+    /// This class prints the data found in the master list onto a new excel spreadsheet. 
+    /// 
+    /// @author: Alexander James Bochel
+    /// @version: 8/30/2017
+    /// 
+    /// </summary>
     public class Printer
     {
         _Application excel;
@@ -17,6 +24,10 @@ namespace ETOCBurgDuration
         List<Data> masterList;
         const int sheet = 1;
 
+        /// <summary>
+        /// This constructor creates the new excel instance and calls the print method that handles the actual printing. 
+        /// </summary>
+        /// <param name="masterList"> The master list of sales. </param>
         public Printer(List<Data> masterList)
         {
             excel = new _Excel.Application();
@@ -29,12 +40,18 @@ namespace ETOCBurgDuration
             print();
         }
 
+        /// <summary>
+        /// This method calls two sub-methods to print both headers and the actual data. 
+        /// </summary>
         public void print()
         {
             printHeaders();
             printData();
         }
 
+        /// <summary>
+        /// This method prints headers for the new excel sheet. 
+        /// </summary>
         private void printHeaders()
         {
             printCell(1, 1, "Sales Number");
@@ -48,6 +65,9 @@ namespace ETOCBurgDuration
             range.Font.Bold = true;
         }
 
+        /// <summary>
+        /// This method prints the data from the sales in the masterlist. 
+        /// </summary>
         private void printData()
         {
             int horiz = 1;

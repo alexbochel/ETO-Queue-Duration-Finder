@@ -9,8 +9,19 @@ using System.Runtime.InteropServices;
 
 namespace ETOCBurgDuration
 {
+    /// <summary>
+    /// This class loads the worksheet into the current view of the program so that it can be worked on. 
+    /// It does this for each file path given to it by the Program class. 
+    /// 
+    /// @author: Alexander James Bochel
+    /// @version: 8/30/2017
+    /// 
+    /// </summary>
     public class DataLoader
     {
+        /// <summary>
+        /// Final list of ETO's for the desired period of time. 
+        /// </summary>
         public List<Data> masterList;
 
         private string[] _excelPaths;
@@ -20,24 +31,38 @@ namespace ETOCBurgDuration
         private Finder finder;
         private Printer printer;
 
+        /// <summary>
+        /// G/S: The array of paths to all of the files in the folder selected by the user. 
+        /// </summary>
         public string[] excelPaths
         {
             get { return _excelPaths; }
             set { _excelPaths = value; }
         }
 
+        /// <summary>
+        /// G/S: Excel instance in use. 
+        /// </summary>
         public _Application excel
         {
             get { return _excel; }
             set { _excel = value; }
         }
 
+        /// <summary>
+        /// G/S: Workbooks in use. 
+        /// </summary>
         public Workbooks wbs
         {
             get { return _wbs; }
             set { _wbs = value; }
         }
 
+        /// <summary>
+        /// This constructor loads the paths from the Program class and creates new instances of
+        /// excel, a list, and a finder. 
+        /// </summary>
+        /// <param name="pathArray"></param>
         public DataLoader(string[] pathArray)
         {
             excelPaths = pathArray;
@@ -73,19 +98,14 @@ namespace ETOCBurgDuration
             printer = new Printer(masterList);
         }
 
+        /// <summary>
+        /// This method ensures that the worksheet being looked at is the sheet with the necessary data. 
+        /// </summary>
+        /// <param name="wb"> Workbook in which a sheet is being looked for. </param>
         private void findWorksheet(Workbook wb)
         {
             for (int i = 1; i <= wb.Worksheets.Count; i++)
             {
-                //try
-                //{
-                //    ws = wb.Worksheets[i];
-                //}
-                //catch
-                //{
-                //    Console.WriteLine("Checking sheets");
-                //}
-
                 ws = wb.Worksheets[i];
 
                 bool a = (ws.Cells[17, 1].Text == "");
@@ -100,6 +120,9 @@ namespace ETOCBurgDuration
             }
         }
 
+        /// <summary>
+        /// Disconnects all excel instances from the computer memory. 
+        /// </summary>
         private void garbageCleanup()
         {
             wbs.Close();

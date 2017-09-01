@@ -8,16 +8,24 @@ using System.Threading.Tasks;
 
 namespace ETOCBurgDuration
 {
+    /// <summary>
+    /// This class is given a worksheet and then looks through the sheet to find unique ETO's and to count the days 
+    /// they are available/unavailable. 
+    /// 
+    /// @author: Alexander James Bochel
+    /// @version: 8/30/2017
+    /// 
+    /// </summary>
     public class Finder
     {
 
         private Worksheet ws;
 
-        public Finder()
-        {
-            // Empty
-        }
-
+        /// <summary>
+        /// This method searches the worksheet and compares the sales to those already in the master list. 
+        /// </summary>
+        /// <param name="ws"> Worksheet being searched. </param>
+        /// <param name="masterList"> The master list of sales. </param>
         public void find(Worksheet ws, ref List<Data> masterList)
         {
             this.ws = ws;
@@ -33,7 +41,6 @@ namespace ETOCBurgDuration
                 int descCol = 3;
                 int dateCol = 8;
 
-                //ws.get_Range(CellName(column, row), Type.Missing).Select();
                 if (row > 19)
                 {
                     if (readCell(matCol, row) == readCell(matCol, (row - 1)))
@@ -94,6 +101,12 @@ namespace ETOCBurgDuration
             }
         }
 
+        /// <summary>
+        /// Checks the master list for repeats and also records at what times the MRPC data indicates availability of the 
+        /// ETO. 
+        /// </summary>
+        /// <param name="newData"> The new data just created from the worksheet. </param>
+        /// <param name="masterList"> The master list of sales. </param>
         private void checkMasterList(Data newData, ref List<Data> masterList)
         {
             bool bFound = false;
@@ -149,23 +162,12 @@ namespace ETOCBurgDuration
         /// <returns> The value in the cell as a string. </returns>
         private string readCell(int i, int j)
         {
-            
             string cell = ws.get_Range(CellName(i, j), Type.Missing).Text.ToString();
 
             return cell;
-            
-            //if (ws.Cells[i, j].Value != null)
-            //{
-            //    string cell = ws.Cells[i, j].Value.ToString();
-
-            //    return cell;
-            //}
-            //else
-            //{
-            //    return "";
-            //}
         }
 
+        // This method takes a number parameter in order to convert it to the correct Excel grid format. 
         private string ColumnName(int nColumn)
         {
             int tempCol, tempInt;
